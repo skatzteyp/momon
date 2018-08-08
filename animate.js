@@ -76,7 +76,9 @@ export class Animate {
       'translateX',
       'translateY',
       'translate',
-      'rotate'
+      'rotate',
+      'rotateY',
+      'rotateX'
     ];
 
     const others = [
