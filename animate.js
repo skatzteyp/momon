@@ -116,7 +116,7 @@ export class Animate {
   static scrollTo(element, options) {
     let defaults = {
       duration: 1000,
-      easing: Easing.easeOutSin,
+      easing: Easing.custom,
       delay: 0,
     };
 
@@ -137,7 +137,7 @@ export class Animate {
       let progress = (timestamp - start) / options.duration;
 
       if (progress <= 1) {
-        progress = options.easing(progress);
+        progress = options.easing(progress, options.duration);
 
         window.scrollTo(0, startPos + (distance * progress));
         window.requestAnimationFrame(step);

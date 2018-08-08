@@ -1,3 +1,5 @@
+import { Bezier } from './bezier';
+
 export const Easing = {
   linear: function (t) { return t },
   easeInQuad: function (t) { return t*t },
@@ -14,5 +16,8 @@ export const Easing = {
   easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
   easeInSin: function (t) { return 1 + Math.sin(Math.PI / 2 * t - Math.PI / 2); },
   easeOutSin : function (t) { return Math.sin(Math.PI / 2 * t); },
-  easeInOutSin: function (t) { return (1 + Math.sin(Math.PI * t - Math.PI / 2)) / 2; }
+  easeInOutSin: function (t) { return (1 + Math.sin(Math.PI * t - Math.PI / 2)) / 2; },
+  custom: function(t, duration) {
+    return Bezier.cubic(.125, .75, .25, .9, t, duration);
+  }
 };
