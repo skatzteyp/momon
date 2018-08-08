@@ -1,0 +1,9 @@
+#basic-div, #multiple-div, #chain-div {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+}
+
+section {
+  height: 100vh;
+}
