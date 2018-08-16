@@ -1,6 +1,7 @@
 import { Easing } from './easing';
 
 export class Animate {
+
   static animate(element, options) {
     const toKebab = (str) => {
       return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -17,13 +18,23 @@ export class Animate {
     options = Object.assign(defaults, options);
 
     return new Promise((resolve, reject) => {
-      let type = options.type;
-
       if (typeof element === 'string') {
         element = document.querySelector(element);
       }
 
-      element.addEventListener('transitionend', resolve);
+      let type = options.type,
+        style = window.getComputedStyle(element),
+        transitions = style.getPropertyValue('transition-property').split(', '),
+        transitionCount = 0;
+
+      element.addEventListener('transitionend', function transitionend(e) {
+        transitionCount++;
+
+        if (transitionCount === transitions.length) {
+          element.removeEventListener(transitionend);
+          resolve();
+        }
+      });
 
       let transition = '';
 

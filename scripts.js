@@ -28,7 +28,8 @@ document.querySelector('#chain-run').addEventListener('click', () => { Animate.t
   })
   .then(() => {
     return Animate.to('#chain-div', {
-      translateY: '200px'
+      translateY: '200px',
+      delay: 1000
     });
   })
   .then(() => {
@@ -40,6 +41,43 @@ document.querySelector('#chain-run').addEventListener('click', () => { Animate.t
 
 document.querySelector('#chain-reset').addEventListener('click', () => {
   document.querySelector('#chain-div').style = {};
+});
+
+document.querySelector('#elements-run').addEventListener('click', () => {
+  Promise.all([
+    Animate.to('#elements-div1', {
+      translateX: '200px',
+      backgroundColor: 'blue',
+      duration: 3000
+    }),
+    Animate.to('#elements-div2', {
+      translateX: '200px',
+      duration: 2000
+    }),
+    Animate.to('#elements-div3', {
+      translateX: '200px',
+      duration: 2000
+    })
+  ])
+  .then(() => {
+    return Animate.to('#elements-div1', {
+      translateX: '100px',
+      // backgroundColor: 'yellow',
+      duration: 1000
+    });
+  })
+  .then(() => {
+    return Animate.to('#elements-div2', {
+      translateY: '-100px',
+      duration: 1000
+    });
+  });
+});
+
+document.querySelector('#elements-reset').addEventListener('click', () => {
+  document.querySelector('#elements-div1').style = {};
+  document.querySelector('#elements-div2').style = {};
+  document.querySelector('#elements-div3').style = {};
 });
 
 document.querySelector('#to-1').addEventListener('click', () => {
