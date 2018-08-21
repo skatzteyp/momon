@@ -17,17 +17,16 @@ export class Animate {
 
     options = Object.assign(defaults, options);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (typeof element === 'string') {
         element = document.querySelector(element);
       }
 
-      let type = options.type,
-        style = window.getComputedStyle(element),
+      let style = window.getComputedStyle(element),
         transitions = style.getPropertyValue('transition-property').split(', '),
         transitionCount = 0;
 
-      element.addEventListener('transitionend', function transitionend(e) {
+      element.addEventListener('transitionend', function transitionend() {
         transitionCount++;
 
         if (transitionCount === transitions.length) {
@@ -130,7 +129,7 @@ export class Animate {
     let defaults = {
       duration: 1000,
       easing: Easing.custom,
-      delay: 0,
+      delay: 0
     };
 
     options = Object.assign(defaults, options);
