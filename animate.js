@@ -30,7 +30,7 @@ export class Animate {
         transitionCount++;
 
         if (transitionCount === transitions.length) {
-          element.removeEventListener(transitionend);
+          element.removeEventListener('transitionend', transitionend);
           resolve();
         }
       });
