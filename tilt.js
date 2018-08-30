@@ -57,3 +57,8 @@ new Tilt('#tilt-me', {
   perspective: '75px',
   bounds: '#tilt-bounds' // x, y, width, height
 });
+
+new Tilt('#tilt2', {
+  perspective: '100px',
+  bounds: '#tilt-bounds' // x, y, width, height
+});

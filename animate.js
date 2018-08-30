@@ -1,14 +1,18 @@
 import { Easing } from './easing';
 
 export class Animate {
+  constructor(element = null) {
+    this.element = element;
+  }
 
   static animate(element, options) {
-    const toKebab = (str) => {
-      return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-    };
+    instance.element = element;
+    return instance.animate(options);
+  }
 
-    let defaults = {
-      duration: 1000,
+  animate(options) {
+    let element = this.element;
+    let defaults = { duration: 1000,
       easing: 'ease-out',
       transformOrigin: '',
       delay: 0,
@@ -22,34 +26,9 @@ export class Animate {
         element = document.querySelector(element);
       }
 
-      let style = window.getComputedStyle(element),
-        transitions = style.getPropertyValue('transition-property').split(', '),
-        transitionCount = 0;
+      this.addTransitionEvents(element, resolve);
 
-      element.addEventListener('transitionend', function transitionend() {
-        transitionCount++;
-
-        if (transitionCount === transitions.length) {
-          element.removeEventListener('transitionend', transitionend);
-          resolve();
-        }
-      });
-
-      let transition = '';
-
-      options.animations.forEach((animation) => {
-        let type = toKebab(animation.type);
-
-        if (!transition.includes(type)) {
-          if (transition.length) {
-            transition += ', ';
-          }
-
-          transition += `${options.duration}ms ${type} ${options.easing}`;
-        }
-      });
-
-      element.style.transition = transition;
+      element.style.transition = this.getTransitions(options);
       element.style.transformOrigin = options.transformOrigin;
 
       setTimeout(() => {
@@ -76,6 +55,42 @@ export class Animate {
         });
       }, options.delay);
     });
+  }
+
+  addTransitionEvents(element, resolve) {
+    let style = window.getComputedStyle(element),
+      transitions = style.getPropertyValue('transition-property').split(', '),
+      transitionCount = 0;
+
+    element.addEventListener('transitionend', function transitionend() {
+      transitionCount++;
+
+      if (transitionCount === transitions.length) {
+        element.removeEventListener('transitionend', transitionend);
+        resolve();
+      }
+    });
+  }
+
+  getTransitions(options) {
+    const toKebab = (str) => {
+      return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    };
+    let transition = '';
+
+    options.animations.forEach((animation) => {
+      let type = toKebab(animation.type);
+
+      if (!transition.includes(type)) {
+        if (transition.length) {
+          transition += ', ';
+        }
+
+        transition += `${options.duration}ms ${type} ${options.easing}`;
+      }
+    });
+
+    return transition;
   }
 
   static to(element, options = {}) {
@@ -160,3 +175,4 @@ export class Animate {
   }
 }
 
+let instance = new Animate();
